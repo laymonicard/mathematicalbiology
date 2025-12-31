@@ -94,7 +94,7 @@ ggplot(out2, aes(x = time, y = I)) +
 ggplot()+
   # point line plot for the discrete-time model
   geom_point(data = out1, aes(x = time, y = I, color = "Discrete-time model"), size = 1.5) + 
-  geom_line(data = out2, aes(x = time, y = I, color = "Continuous-time model"), size = 1.2) +
+  geom_line(data = out2, aes(x = time, y = I, color = "Continuous-time model"), linewidth = 1.2) +
   theme_minimal() +
   ggtitle("Solution for discrete-time and continuous-time model") +
   xlab("time(days)") + ylab("number of infectious")+
@@ -104,10 +104,8 @@ ggplot()+
   ) +
   labs(color = "") +
   theme(
-    legend.position = c(0.7, 0.8)
+    legend.position = c(0.8, 0.8) # left and right margin
   )
 
-
-
-
+# The solutions from both models are quite close to each other
 
