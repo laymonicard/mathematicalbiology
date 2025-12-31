@@ -7,6 +7,12 @@
 # Date created: 30 December 2025
 
 
+# Clear the environment
+rm(list = ls())
+
+# Turn off scientific notation 
+options(scipen = 999)
+
 #### Preparatory stage ####
 # Install necessary packages and load their libraries
 required_packages <- c("dplyr", "deSolve", "ggplot2")
@@ -52,7 +58,7 @@ discrete_time_model <- function(time_length, p_recovery){
 # Solve the equation
 out_discrete <- discrete_time_model(n_length, p)
 
-out1 <- data.frame(time = n_length, I = out_discrete[1:31]) 
+out1 <- data.frame(time = n_length, I = out_discrete[1:length(n_length)]) 
   
 # Check the output
 ggplot(out1, aes(x = time, y = I)) +
@@ -70,7 +76,7 @@ continuous_time_model <- function(times, state, parameters){
 }
 
 # Set up the initial conditions 
-state <- c(I = 100)
+istate <- c(I = 100)
 
 # Set up the parameters
 parameters <- c(alpha = 0.3)
@@ -82,7 +88,7 @@ tps <- 0.5
 times <- seq(start, end, by = tps)
 
 # Solve the equation
-out2 <- ode(y = state, times = times, func = continuous_time_model, parms = parameters, method = "lsoda")
+out2 <- ode(y = istate, times = times, func = continuous_time_model, parms = parameters, method = "lsoda")
 
 # Check the output
 ggplot(out2, aes(x = time, y = I)) +
@@ -97,7 +103,7 @@ ggplot()+
   geom_line(data = out2, aes(x = time, y = I, color = "Continuous-time model"), linewidth = 1.2) +
   theme_minimal() +
   ggtitle("Solution for discrete-time and continuous-time model") +
-  xlab("time(days)") + ylab("number of infectious")+
+  xlab("time (days)") + ylab("number of infectious")+
   scale_color_manual(
     name = "",
     values = c("Discrete-time model" = "black", "Continuous-time model" = "steelblue") 
