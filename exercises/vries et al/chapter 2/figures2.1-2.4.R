@@ -118,13 +118,13 @@ ggplot()+
 
 # Cobwebbing to investigate the behaviour of the system
 # Define the function (discrete logistic model) for the parabola 
-parabola <- function(xn){
+parabola <- function(xn, rn){
   # Define the length of the outputs
   n_length <- length(xn)
   x <- numeric(n_length)
   
   # Define parameters values
-  r <- 2.8
+  r <- rn
   K <- 1
   
   for (n in seq_along(x)){
@@ -138,8 +138,9 @@ end <- 1
 x_length <- 500
 xn <- seq(start, end, length.out = x_length)
 
+rn1 <- 2.8
 df_parabola_xn <-xn
-df_parabola_xn_1 <- parabola(xn)
+df_parabola_xn_1 <- parabola(xn, rn1)
 
 df_parabola <- data.frame(xn = df_parabola_xn, xn_1 = df_parabola_xn_1)
 
@@ -154,7 +155,7 @@ ggplot(df_parabola, aes(x = xn, y = xn_1)) +
 
 # Now draw the cobweb
 # The cobweb requires a separate function
-cobweb <- function(x){
+cobweb <- function(x, rn){
   # Define the length of the outputs and initiate blank data frame for storing the outputs
   n_length <- length(x)
   xn <- numeric(n_length)
@@ -164,7 +165,7 @@ cobweb <- function(x){
   step <- numeric(n_length)
   
   # Define parameters values
-  r <- 2.8
+  r <- rn
   K <- 1
   
   # Define initial conditions
@@ -203,7 +204,7 @@ cobweb <- function(x){
   return(df_cobweb)
 }
 
-plot_cobweb <- cobweb(df_parabola$xn_1)
+plot_cobweb <- cobweb(df_parabola$xn_1, rn1)
 
 
 # Overlay the cobweb on top of the parabola and the diagonal line
