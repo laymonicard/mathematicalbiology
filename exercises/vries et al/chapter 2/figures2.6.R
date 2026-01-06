@@ -2,7 +2,7 @@
 rm(list = ls())
 
 # Introduction to Discrete-Time Models
-packages <- c("dplyr", "tidyverse", "readxl", "ggplot2", "ggpubr")
+packages <- c("dplyr", "tidyverse", "readxl", "ggplot2", "ggpubr", "patchwork")
 
 # Install required packages
 install_load_packages <- function(list_of_packages){
@@ -132,3 +132,5 @@ curve_b
 curve_c
 curve_d
 
+# Combine the plots to see how the dynamics change
+curve_a + curve_b + curve_c + curve_d + plot_layout(ncol = 2, nrow = 2)
