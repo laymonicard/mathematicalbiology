@@ -1,3 +1,18 @@
+# Introduction to Discrete-Time Models
+packages <- c("dplyr", "tidyverse", "readxl", "ggplot2", "ggpubr")
+
+# Install required packages
+install_load_packages <- function(list_of_packages){
+  for (package in list_of_packages){
+    if (! package %in% installed.packages()){
+      install.packages(package)
+    }
+    library(package, character.only = TRUE)
+  }
+}
+
+install_load_packages(packages)
+
 # Cobwebbing to investigate the behaviour of the system
 # Define the function (xt = f(xt-1)) for the curve 
 curve <- function(xn){

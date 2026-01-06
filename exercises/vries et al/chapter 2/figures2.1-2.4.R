@@ -139,13 +139,13 @@ x_length <- 500
 xn <- seq(start, end, length.out = x_length)
 
 df_parabola_xn <-xn
-df_parabola_xn_1 <- cobweb_curve(xn)
+df_parabola_xn_1 <- parabola(xn)
 
 df_parabola <- data.frame(xn = df_parabola_xn, xn_1 = df_parabola_xn_1)
 
 
 # Draw the parabola and the diagonal line
-ggplot(df_cobweb, aes(x = xn, y = xn_1)) +
+ggplot(df_parabola, aes(x = xn, y = xn_1)) +
   geom_line()+
   theme_minimal()+
   geom_abline(intercept = 0, slope = 1, linetype = "dotdash")+
@@ -171,7 +171,7 @@ cobweb <- function(x){
   step[1] <- 1
   
   # Start with a vertical move
-  xn[1] <- 0.8 
+  xn[1] <- 0.08 
   xn_end[1] <- xn[1] # the end point of x is just x as it moves vertically
   yn[1] <- xn[1] # the vertical move starts from x
   yn_end[1] <- r*xn[1]*(1-(xn[1]/K)) # the move ends at f(x0)
@@ -207,7 +207,7 @@ plot_cobweb <- cobweb(df_parabola$xn_1)
 
 
 # Overlay the cobweb on top of the parabola and the diagonal line
-ggplot(df_cobweb, aes(x = xn, y = xn_1)) +
+ggplot(df_parabola, aes(x = xn, y = xn_1)) +
   geom_line()+
   theme_minimal()+
   geom_abline(intercept = 0, slope = 1, linetype = "dotdash")+

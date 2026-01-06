@@ -477,6 +477,3 @@ ggplot()+
   theme(
     legend.position = c(0.8, 0.8) # left and right margin
   )
-
-
-
