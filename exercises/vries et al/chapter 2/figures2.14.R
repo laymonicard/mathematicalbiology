@@ -80,10 +80,49 @@ K <- 2
 
 df <- data.frame(xn = c(0, K), gxn = discrete_logistic_model(n, r, K))
 
-# The plot
+# The plot with x-intercept and y-intercept
 ggplot(df, aes(x = xn, y = gxn)) +
   geom_line()+
   xlim(0, 2.5)+
   ylim(0, 2)+
   theme_minimal()
+
+
+# The parabola with diagonal line
+parabola <- function(xn, r){
+  # Define the length of the outputs
+  n_length <- length(xn)
+  x <- numeric(n_length)
+  
+  # Define parameter values
+  K <- 1
+  
+  for (n in seq_along(x)){
+    x[n] <- r*xn[n]*(1-(xn[n]/K)) 
+  }
+  return(x)
+}
+
+start <- 0
+end <- 1
+x_length <- 500
+xn <- seq(start, end, length.out = x_length)
+r1 <- 2.8
+
+df_parabola_xn <- xn
+df_parabola_xn_1 <- parabola(xn, r1)
+df_parabola1 <- data.frame(xn = df_parabola_xn, xn_1 = df_parabola_xn_1)
+
+# Draw the parabola and the diagonal line
+parabola_plot <- function(df_parabola){
+  ggplot(df_parabola1, aes(x = xn, y = xn_1)) +
+    geom_line()+
+    theme_minimal()+
+    geom_abline(intercept = 0, slope = 1, linetype = "dotdash")+
+    coord_cartesian(xlim = c(0,1), ylim = c(0,1))
+}
+
+# Plot the parabola
+parabola1 <- parabola_plot(df_parabola1)
+parabola1
 
