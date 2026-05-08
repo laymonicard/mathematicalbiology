@@ -4,12 +4,16 @@ output: html_document
 ---
 
 ```{r install packages and load library and data}
-install.packages(c("coda","mvtnorm","devtools","loo","dagitty","shape"))
-pak::pak("rmcelreath/rethinking")
-library(rethinking)
+#follow instructions in this page: https://github.com/rmcelreath/rethinking
+#install C++ toolchain
+#install.packages(c("coda","mvtnorm","devtools","loo","dagitty","shape"))
+#install.packages("cmdstanr", repos = c("https://stan-dev.r-universe.dev", getOption("repos")))
+#cmdstanr::install_cmdstan()
+#pak::pak("rmcelreath/rethinking")
 ```
 
 ```{r load the frog data}
+library(rethinking)
 data(reedfrogs)
 d <- reedfrogs
 str(d)
@@ -93,17 +97,19 @@ text( 32+8 , 0 , "large tanks" )
 plot(NULL, xlim=c(-3,4), ylim=c(0,0.35),
      xlab="log-odds survive", ylab="Density")
 
-for(i in 1:100)
+for(i in 1:2000)
   curve(dnorm(x, post$a_bar[i], post$sigma[i]), add=TRUE,
         col=col.alpha("black", 0.2) )
 
 # sample 8000 imaginary tanks from the posterior distribution
+# imaginary tank 1 is sampled from a different distribution from imaginary tank 2
+# the parameters a_bar and sigma propagate uncertainty about the population down to the prediction of a new tank.
 sim_tanks <- rnorm( 8000, post$a_bar, post$sigma ) 
 
 # transform to probability and visualise
 dens( inv_logit(sim_tanks), lwd=2, adj=0.1)
 ```
-```{r}
+```{r check the values of a_bar and sigma of the posterior distribution}
 tail(post$a_bar)
 tail(post$sigma)
 ```

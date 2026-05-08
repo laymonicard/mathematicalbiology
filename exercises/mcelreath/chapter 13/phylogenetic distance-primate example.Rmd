@@ -1,0 +1,36 @@
+---
+title: "phylogenetic distance-primate examples"
+output: html_document
+date: "2026-05-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Closing the backdoor path by using phylogenetic distance to reconstruct variation between predictor and response variable 
+
+In other words, partition the evolutionary relationship from the relationship between predictors (e.g., life history traits) and response variables (e.g., compositional patterns) we are interested in? 
+
+We are going to plot the consensus phylogeny for 301 primate species and then use the tree to to model our unobserved confounds and close the backdoor path between our predictor and response variable. 
+
+```{r consensus phylogeny for 301 primate species}
+library(rethinking)
+data(Primates301)
+data(Primates301_nex)
+
+# plot using ape package -- install.packages('ape') if needed
+library(ape)
+plot(ladderize(Primates301_nex), type="fan", font=1, no.margin=TRUE, label.offset=1, cex=0.5)
+```
+
+## Fitting the ordinary regression model to the primate data
+
+```{r remove species with no group size, brain size, and body size data, echo=FALSE}
+d <- Primates301
+d$name <- as.character(d$name)
+d$stan <- d[complete.cases(d$group_size, d$body, d$brain),]
+spp_obs <- dstan$name
+```
+
+
